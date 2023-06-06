@@ -1,0 +1,11 @@
+rest:
+  client:
+    default:
+      timeout: 10000
+
+api-product-config:
+  url-base: "http://localhost:3001/product/{id}"
+
+server:
+  port : 5000
+
