@@ -1,5 +1,6 @@
 package com.backendDevTest.BackendDevTest.rest.handler;
 
+import com.backendDevTest.BackendDevTest.exception.RestClientGenericException;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.client.ClientHttpResponse;
@@ -23,7 +24,10 @@ public class RestTemplateErrorHandler implements ResponseErrorHandler {
     }
 
     @Override
-    public void handleError(ClientHttpResponse response) {
+    public void handleError(ClientHttpResponse response) throws IOException, RuntimeException {
+        throw exceptionsMap.getOrDefault(response.getStatusCode(),
+                new RestClientGenericException("Internal Server Exception"));
+
     }
 
     @Override

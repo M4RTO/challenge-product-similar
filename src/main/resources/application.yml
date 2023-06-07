@@ -1,10 +1,23 @@
+spring:
+  data:
+    redis:
+      port: '6379'
+      timeout: 5s
+      password: ''
+      database: '0'
+
 rest:
   client:
     default:
       timeout: 10000
 
 api-product-config:
-  url-base: "http://localhost:3001/product/{id}"
+  product-repository:
+    url-base: 'http://localhost:3001/product/%s'
+  product-cache:
+    ttl: '3600'
+    key-prefix-product-detail: 'product-detail-cache:'
+    key-prefix-product-similar: 'product-similar-cache:'
 
 server:
   port : 5000

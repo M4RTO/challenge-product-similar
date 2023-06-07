@@ -4,9 +4,10 @@ import com.backendDevTest.BackendDevTest.controller.model.response.ProductModelR
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 @Component
 public interface ProductServiceImpl {
 
-    List<ProductModelResponse> getSimilarProduct(String id);
+    CompletableFuture<List<ProductModelResponse>> getSimilarProduct(String id);
 }

@@ -11,8 +11,8 @@ import java.math.BigDecimal;
 @Setter
 public class ProductModelResponse {
 
-    private Long id;
+    private Integer id;
     private String name;
-    private BigDecimal price;
+    private Integer price;
     private Boolean availability;
 }
