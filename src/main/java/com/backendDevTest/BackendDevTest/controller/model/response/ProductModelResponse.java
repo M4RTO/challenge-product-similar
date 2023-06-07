@@ -3,16 +3,18 @@ package com.backendDevTest.BackendDevTest.controller.model.response;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.math.BigDecimal;
 
 @AllArgsConstructor
 @Getter
 @Setter
+@ToString
 public class ProductModelResponse {
 
-    private Integer id;
+    private Long id;
     private String name;
-    private Integer price;
+    private BigDecimal price;
     private Boolean availability;
 }

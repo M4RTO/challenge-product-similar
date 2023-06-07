@@ -1,0 +1,15 @@
+rest:
+  client:
+    default:
+      timeout: '10000'
+spring:
+  application:
+    name: 'BackendDevTest'
+  main:
+    allow-bean-definition-overriding: 'true'
+
+api-product-config:
+  product-cache:
+    ttl: '3600'
+    key-prefix-product-detail: 'product-detail-cache:'
+    key-prefix-product-similar: 'product-similar-cache:'

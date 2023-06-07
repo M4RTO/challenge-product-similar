@@ -6,5 +6,5 @@ import com.backendDevTest.BackendDevTest.rest.model.ProductDetailResponse;
 public interface ProductRestControllerImpl {
 
      ProductDetailResponse getDetailProduct(String id);
-     Integer[] getSimilarProducts(String id);
+     Long[] getSimilarProducts(String id);
 }

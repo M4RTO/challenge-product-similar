@@ -53,11 +53,11 @@ public class ProductRestController implements ProductRestControllerImpl {
 
     @Override
     @Cacheable(value = CacheConfig.PRODUCT_ID_SIMILAR_CACHE, key = "#id")
-    public Integer[] getSimilarProducts(String id) {
+    public Long[] getSimilarProducts(String id) {
         logger.info("Finding product similar with id: {}", id );
-        ResponseEntity<Integer[]> exchange = this.restTemplate.getForEntity(
+        ResponseEntity<Long[]> exchange = this.restTemplate.getForEntity(
                 String.format(this.config.getProductSimilarUrl(), id),
-                Integer[].class);
+                Long[].class);
         return Optional.of(exchange)
                 .map(ResponseEntity::getBody)
                 .orElseThrow(() -> new InternalServerErrorException("No body content - Internal Error"));

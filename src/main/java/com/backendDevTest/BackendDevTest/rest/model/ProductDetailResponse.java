@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 @AllArgsConstructor
 @Getter
@@ -13,8 +14,8 @@ import java.io.Serializable;
 @Data
 public class ProductDetailResponse implements Serializable {
 
-    private String id;
+    private Long id;
     private String name;
-    private Integer price;
+    private BigDecimal price;
     private Boolean availability;
 }

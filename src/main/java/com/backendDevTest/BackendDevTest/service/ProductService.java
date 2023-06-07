@@ -18,7 +18,7 @@ import java.util.concurrent.Executor;
 @Component
 public class ProductService implements ProductServiceImpl {
 
-    private ProductRestController productRestController;
+    private final ProductRestController productRestController;
     private final Executor executor;
 
     Logger logger = LogManager.getLogger(ProductService.class);
@@ -34,7 +34,7 @@ public class ProductService implements ProductServiceImpl {
         return CompletableFuture.supplyAsync(() -> {
             List<ProductModelResponse> productModelResponseList = new ArrayList<>();
             ProductDetailResponse detailProduct = this.productRestController.getDetailProduct(id);
-            Integer[] similarProducts = this.productRestController.getSimilarProducts(id);
+            Long[] similarProducts = this.productRestController.getSimilarProducts(id);
 
             logger.info("Finding detail product {}",detailProduct );
             logger.info("Finding similar products {}", Arrays.stream(similarProducts).toList() );

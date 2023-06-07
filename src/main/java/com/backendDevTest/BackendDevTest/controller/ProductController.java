@@ -21,7 +21,6 @@ public class ProductController {
 
     Logger logger = LogManager.getLogger(ProductController.class);
 
-
     @Autowired
     public ProductController(ProductService productService) {
         this.productService = productService;
@@ -30,6 +29,6 @@ public class ProductController {
     @GetMapping("/{id}/similar")
     public CompletableFuture<List<ProductModelResponse>> getProducts(@PathVariable String id){
         logger.info("Finding similar product and detail with id: {}", id );
-        return productService.getSimilarProduct(id).thenApply( p -> p);
+        return productService.getSimilarProduct(id).thenApply( products -> products);
     }
 }
