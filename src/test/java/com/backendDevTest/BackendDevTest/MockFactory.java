@@ -26,8 +26,8 @@ public class MockFactory {
         );
     }
 
-    public static ProductDetailResponse getProductDetail() {
-        return new ProductDetailResponse(1L,"T-shirt",new BigDecimal("10.00"),true);
+    public static ProductDetailResponse getProductDetail(Long id) {
+        return new ProductDetailResponse(id,"T-shirt",new BigDecimal("10.00"),true);
     }
 
     public static List<ProductModelResponse> getSimilarProducts(Long[] longs) {
@@ -36,9 +36,9 @@ public class MockFactory {
         Arrays.stream(longs).toList().forEach(idProduct -> {
             ProductModelResponse productModelResponse = new ProductModelResponse(
                     idProduct,
-                    getProductDetail().getName(),
-                    getProductDetail().getPrice(),
-                    getProductDetail().getAvailability());
+                    getProductDetail(idProduct).getName(),
+                    getProductDetail(idProduct).getPrice(),
+                    getProductDetail(idProduct).getAvailability());
             productModelResponseList.add(productModelResponse);
         });
         return productModelResponseList;

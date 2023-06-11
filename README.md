@@ -8,7 +8,7 @@ It has been implemented a Redis cache for product details retrieval and similari
 - The first test includes Redis and multithreading implementation.
 - The second test doesn't include any of the aforementioned functionalities.
 
-![Diagram](./k6-performance-test-Grafana.png "Diagram")
+![Diagram](./Screenshot from 2023-06-11 14-09-28.png "Diagram")
 
 
 

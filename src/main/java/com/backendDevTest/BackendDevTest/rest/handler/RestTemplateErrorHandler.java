@@ -1,6 +1,9 @@
 package com.backendDevTest.BackendDevTest.rest.handler;
 
 import com.backendDevTest.BackendDevTest.exception.RestClientGenericException;
+import com.backendDevTest.BackendDevTest.rest.ProductRestController;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.client.ClientHttpResponse;
@@ -14,6 +17,9 @@ public class RestTemplateErrorHandler implements ResponseErrorHandler {
 
     private final Map<HttpStatus, RuntimeException> exceptionsMap;
 
+    Logger logger = LogManager.getLogger(RestTemplateErrorHandler.class);
+
+
     public RestTemplateErrorHandler(Map<HttpStatus, RuntimeException> exceptionsMap) {
         this.exceptionsMap = exceptionsMap;
     }
@@ -25,6 +31,7 @@ public class RestTemplateErrorHandler implements ResponseErrorHandler {
 
     @Override
     public void handleError(ClientHttpResponse response) throws IOException, RuntimeException {
+        logger.error("There are an error in api response with this message: {}", response);
         throw exceptionsMap.getOrDefault(response.getStatusCode(),
                 new RestClientGenericException("Internal Server Exception"));
 

@@ -5,7 +5,7 @@ import com.backendDevTest.BackendDevTest.rest.model.ProductDetailResponse;
 import java.util.Optional;
 
 
-public interface ProductRestControllerImpl {
+public interface ProductSimilarRestControllerImpl {
 
-     Optional<ProductDetailResponse> getDetailProduct(String id);
+     String[] getSimilarProducts(String id);
 }

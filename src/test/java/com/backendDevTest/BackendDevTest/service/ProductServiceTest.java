@@ -5,6 +5,7 @@ import com.backendDevTest.BackendDevTest.controller.model.response.ProductModelR
 import com.backendDevTest.BackendDevTest.exception.InternalServerErrorException;
 import com.backendDevTest.BackendDevTest.exception.NotFoundProductException;
 import com.backendDevTest.BackendDevTest.rest.ProductRestController;
+import com.backendDevTest.BackendDevTest.rest.ProductSimilarRestController;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
@@ -14,6 +15,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionException;
 
@@ -28,16 +30,17 @@ import static org.mockito.Mockito.when;
 public class ProductServiceTest {
 
     private final ProductRestController productRestController = mock(ProductRestController.class);
+    private final ProductSimilarRestController productSimilarRestController = mock(ProductSimilarRestController.class);
     private static final ThreadPoolTaskExecutor executor = MockFactory.get();
     private final ObjectMapper objectMapper = new ObjectMapper();
 
 
     @Test
     public void getSimilarProductsNotFound() {
-        final ProductService productService = new ProductService(productRestController,executor);
+        final ProductService productService = new ProductService(productRestController,productSimilarRestController,executor);
 
         when(productRestController.getDetailProduct(any())).thenThrow(NotFoundProductException.class);
-        when(productRestController.getSimilarProducts(any())).thenReturn(new Long[] {3L, 1L, 4L});
+        when(productSimilarRestController.getSimilarProducts(any())).thenReturn(new String[] {"3", "1", "4"});
 
 
         CompletableFuture<List<ProductModelResponse>> similarProduct = productService.getSimilarProduct("1");
@@ -48,25 +51,27 @@ public class ProductServiceTest {
 
     @Test
     public void getSimilarProductsInternal() {
-        final ProductService productService = new ProductService(productRestController,executor);
+        final ProductService productService = new ProductService(productRestController,productSimilarRestController,executor);
 
-        when(productRestController.getDetailProduct(any())).thenThrow(InternalServerErrorException.class);
-        when(productRestController.getSimilarProducts(any())).thenReturn(new Long[] {3L, 1L, 4L});
+        when(productRestController.getDetailProduct(any())).thenThrow(NotFoundProductException.class);
+        when(productSimilarRestController.getSimilarProducts(any())).thenReturn(new String[] {"3", "1", "4"});
 
 
         CompletableFuture<List<ProductModelResponse>> similarProduct = productService.getSimilarProduct("1");
 
         final CompletionException e = assertThrows(CompletionException.class, similarProduct::join);
-        assertEquals(InternalServerErrorException.class, e.getCause().getClass());
+        assertEquals(NotFoundProductException.class, e.getCause().getClass());
     }
 
 
     @Test
     public void getSimilarProductsOK() throws JsonProcessingException {
-        final ProductService productService = new ProductService(productRestController,executor);
+        final ProductService productService = new ProductService(productRestController,productSimilarRestController,executor);
 
-        when(productRestController.getDetailProduct(any())).thenReturn(MockFactory.getProductDetail());
-        when(productRestController.getSimilarProducts(any())).thenReturn(new Long[] {3L, 1L, 4L});
+        when(productRestController.getDetailProduct("3")).thenReturn(Optional.of(MockFactory.getProductDetail(3L)));
+        when(productRestController.getDetailProduct("1")).thenReturn(Optional.of(MockFactory.getProductDetail(1L)));
+        when(productRestController.getDetailProduct("4")).thenReturn(Optional.of(MockFactory.getProductDetail(4L)));
+        when(productSimilarRestController.getSimilarProducts(any())).thenReturn(new String[] {"3", "1", "4"});
 
         final var expected = objectMapper.writeValueAsString(MockFactory.getSimilarProducts(new Long[] {3L, 1L, 4L}));
 
